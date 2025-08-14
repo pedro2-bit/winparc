@@ -1,0 +1,99 @@
+<!-- Navbar minimaliste pour la page de login -->
+<nav class="w-full bg-neutral-950 px-4 py-2 flex items-center justify-between shadow-md fixed top-0 left-0 z-40">
+  <div class="flex items-center">
+    <button type="button" class="md:hidden mr-2 focus:outline-none" (click)="showMenu = !showMenu" aria-label="Ouvrir le menu">
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white"></span>
+    </button>
+    <a href="/" class="text-white font-bold tracking-widest text-lg ml-2">INFOSYLVE</a>
+  </div>
+  <!-- Menu mobile -->
+  <ul *ngIf="showMenu" class="absolute top-full left-0 w-full bg-emerald-700 flex flex-col md:hidden animate-fade-in shadow-lg">
+    <li>
+      <a href="/" class="block px-6 py-3 text-white font-semibold tracking-widest border-b border-emerald-600">Accueil</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="min-h-screen flex items-center justify-center pt-16 bg-cover bg-center" style="background-image: url('/images/login_bg3.jpg'); background-repeat: no-repeat;">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-96 relative"> <!-- Ajout de relative pour le positionnement -->
+    <div class="flex justify-center mb-6">
+      <img src="/images/infosylve.png" alt="logo" class="w-10 h-10">
+    </div>
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">{{ 'login.title' | translate }}</h2>
+    
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+      <p class="text-red-600 text-sm">{{ errorMessage | translate }}</p>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">{{ 'login.usernameLabel' | translate }}</label>
+        <input 
+          type="text" 
+          formControlName="username"
+          class="h-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+          [class.border-red-500]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+        >
+        <p *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" 
+           class="mt-1 text-sm text-red-600">
+          {{ 'login.usernameRequired' | translate }}
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">{{ 'login.passwordLabel' | translate }}</label>
+        <div class="relative"> <!-- Ajout d'un conteneur relatif -->
+          <input 
+            [type]="showPassword ? 'text' : 'password'" formControlName="password"
+            class="h-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+            [class.border-red-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          >
+          <button
+            type="button"
+            (click)="togglePassword()"
+            class="absolute inset-y-0 right-2 flex items-center text-gray-600"
+            tabindex="-1"
+          >
+            <!-- Icône pour afficher/cacher le mot de passe -->
+            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.478 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.96 9.96 0 012.226-3.592M6.712 6.712A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.969 9.969 0 01-4.163 5.212M3 3l18 18" />
+            </svg>
+          </button>
+        </div>
+        <p *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+           class="mt-1 text-sm text-red-600">
+          {{ 'login.passwordRequired' | translate }}
+        </p>
+      </div>
+
+      <div class="mt-4 text-left">
+        <a href="#" class="text-sm text-gray-600 hover:text-gray-800">{{ 'login.forgotPassword' | translate }}</a>
+      </div>
+
+      <button 
+        type="submit" 
+        [disabled]="loginForm.invalid || isLoading"
+        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+      >
+        <span *ngIf="!isLoading">{{ 'login.button' | translate }}</span>
+        <span *ngIf="isLoading" class="flex items-center">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ 'login.buttonLoading' | translate }}
+        </span>
+      </button>
+    </form>
+    <div class="mt-4 text-center">
+      <p class="text-sm text-gray-600">{{ 'login.noAccount' | translate }} <span class="text-blue-600 hover:text-blue-800"><a routerLink="/auth/register">{{ 'login.createAccount' | translate }}</a></span></p>
+    </div>
+  </div>
+</div>

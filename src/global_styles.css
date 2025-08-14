@@ -1,0 +1,47 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #3B3A30;      /* Vert forêt */
+  --primary-dark: #166534;       /* Vert foncé */
+  --primary-light: #34D399;      /* Vert clair */
+  --secondary-color: #8B5E3C;    /* Brun bois */
+  --background: #F4F1EE;         /* Gris clair */
+  --card-bg: #F9F6F2;            /* Beige clair */
+  --text-primary: #2D2D2D;       /* Gris foncé */
+  --text-secondary: #6B7280;
+  --accent: #FFD966;             /* Jaune doux */
+  --sidebar-bg: #3B3A30; 
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+.btn-primary {
+  @apply bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 
+         transition-colors duration-200 flex items-center justify-center gap-2;
+}
+
+.form-input {
+  @apply w-full px-4 py-2 rounded-lg border border-gray-300 
+         focus:ring-2 focus:ring-emerald-500 focus:border-transparent
+         transition-all duration-200;
+}
+
+.card {
+  @apply bg-white rounded-xl shadow-lg p-6;
+}
+/* Sidebar spécifique */
+/* Sidebar spécifique */
+.sidebar {
+  @apply bg-[color:var(--sidebar-bg)] text-white;
+}
+/* Accent (ex: badge, notification) */
+.accent {
+  @apply bg-[color:var(--accent)] text-[color:var(--primary-dark)];
+}

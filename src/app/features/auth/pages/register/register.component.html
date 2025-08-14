@@ -1,0 +1,436 @@
+<!-- Loader global -->
+<div *ngIf="isLoadingGlobal" class="absolute inset-0 z-30 flex items-center justify-center bg-white/80 rounded-2xl">
+  <div class="flex flex-col items-center">
+    <svg class="animate-spin h-12 w-12 text-emerald-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <span class="text-emerald-700 font-semibold text-lg">Chargement des données...</span>
+  </div>
+</div>
+<!-- Navbar minimaliste pour la page de login -->
+<nav class="w-full bg-teal-700 px-4 py-2 flex items-center justify-between shadow-md fixed top-0 left-0 z-40">
+  <div class="flex items-center">
+  
+    <a href="/" class="text-white font-bold tracking-widest text-lg ml-2">INFOSYLVE</a>
+  </div>
+</nav>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50">
+  <div class="card w-full max-w-6xl p-8">
+    
+    <!-- ...existing code... (copier tout le template ici) ... -->
+     <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50">
+      <div class="card w-full max-w-6xl p-8">
+        <div class="text-left mb-8">
+          <img src="/images/infosylve.png" alt="logo" class="w-10 h-10 rounded-xl l-2">
+          <h2 class="mt-4 text-2xl font-bold text-gray-900">Créer une société</h2>
+        </div>
+
+        <!-- Indicateur d'étape -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="p-2 rounded-full" [ngClass]="{'bg-primary text-white': currentStep >= 1, 'bg-gray-200 text-gray-600': currentStep < 1}">1</div>
+              <div class="ml-2">Informations Générales</div>
+            </div>
+            <div class="flex-1 h-1 mx-4 bg-gray-200">
+              <div class="h-full bg-primary" [style.width.%]="currentStep === 2 ? 50 : currentStep === 3 ? 100 : 0"></div>
+            </div>
+            <div class="flex items-center">
+              <div class="p-2 rounded-full" [ngClass]="{'bg-primary text-white': currentStep >= 2, 'bg-gray-200 text-gray-600': currentStep < 2}">2</div>
+              <div class="ml-2">Informations Juridiques</div>
+            </div>
+            <div class="flex-1 h-1 mx-4 bg-gray-200">
+              <div class="h-full bg-primary" [style.width.%]="currentStep === 3 ? 100 : 0"></div>
+            </div>
+            <div class="flex items-center">
+              <div class="p-2 rounded-full" [ngClass]="{'bg-primary text-white': currentStep === 3, 'bg-gray-200 text-gray-600': currentStep < 3}">3</div>
+              <div class="ml-2">Informations Complémentaires</div>
+            </div>
+          </div>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-8">
+          <!-- Étape 1 -->
+          <div *ngIf="currentStep === 1" class="space-y-8">
+            <!-- Informations Générales -->
+            <div class="space-y-4">
+              <div class="border-b pb-2">
+                <h3 class="text-lg font-semibold text-gray-900">Informations Générales</h3>
+                <p class="text-sm text-gray-500">Informations de base sur votre société</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Raison Sociale<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Nom officiel de votre entreprise</p>
+                <input type="text" formControlName="raisonSociale" name="raisonSociale"
+                    class="form-input w-full border"
+                    
+                    [ngClass]="{'!border-red-500': registerForm.get('raisonSociale')?.invalid && registerForm.get('raisonSociale')?.touched}"
+                    placeholder="NS Society1" />
+                <div *ngIf="registerForm.get('raisonSociale')?.invalid && registerForm.get('raisonSociale')?.touched" class="text-xs text-red-500 mt-1">
+                    Ce champ est obligatoire.
+                </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Adresse<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Adresse postale complète</p>
+                  <input type="text"  formControlName="adresse" name="adresse"
+                         class="form-input w-full" 
+                        [ngClass]="{'!border-red-500': registerForm.get('adresse')?.invalid && registerForm.get('adresse')?.touched}"
+                         placeholder="Avenue des Champs Élysées" />
+                    <div *ngIf="registerForm.get('adresse')?.invalid && registerForm.get('adresse')?.touched" class="text-xs text-red-500 mt-1">
+                        Ce champ est obligatoire.
+                    </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Code Société<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Identifiant unique de votre société</p>
+                  <input type="text" formControlName="codeSociete" name="codeSociete"
+                         class="form-input w-full" 
+                        [ngClass]="{'!border-red-500': registerForm.get('codeSociete')?.invalid && registerForm.get('codeSociete')?.touched}"
+                         placeholder="NS1234" />
+                  <div *ngIf="registerForm.get('codeSociete')?.invalid && registerForm.get('codeSociete')?.touched" class="text-xs text-red-500 mt-1">
+                        Ce champ est obligatoire.
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informations de Contact -->
+            <div class="space-y-4">
+              <div class="border-b pb-2">
+                <h3 class="text-lg font-semibold text-gray-900">Informations de Contact</h3>
+                <p class="text-sm text-gray-500">Coordonnées de votre société</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Manager<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Responsable principal de la société</p>
+                  <input type="text" formControlName="manager" name="manager"
+                         class="form-input w-full" 
+                        [ngClass]="{'!border-red-500': registerForm.get('manager')?.invalid && registerForm.get('manager')?.touched}"
+                         placeholder="Alice DUPONT1" />
+                 <div *ngIf="registerForm.get('manager')?.invalid && registerForm.get('manager')?.touched" class="text-xs text-red-500 mt-1">
+                        Ce champ est obligatoire.
+                 </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Email</label>
+                  <p class="text-xs text-gray-500 mb-1">Email de contact principal</p>
+                  <input type="email" formControlName="email" name="email"
+                         class="form-input w-full"
+                         placeholder="contact@nouvelle-societe.com" />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Téléphone<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Numéro de téléphone principal</p>
+                  <input type="tel" formControlName="tel" name="tel"
+                         class="form-input w-full" 
+                        [ngClass]="{'!border-red-500': registerForm.get('tel')?.invalid && registerForm.get('tel')?.touched}"
+                         placeholder="+33612345678" />
+                   <div *ngIf="registerForm.get('tel')?.invalid && registerForm.get('tel')?.touched" class="text-xs text-red-500 mt-1">
+                        Le numéro de téléphone est obligatoire.
+                   </div>
+                </div>
+                                
+              </div>
+            </div>
+          </div>
+
+          <!-- Étape 2 -->
+          <div *ngIf="currentStep === 2" class="space-y-8">
+            <!-- Informations Géographiques -->
+            <div class="space-y-4">
+              <div class="border-b pb-2">
+                <h3 class="text-lg font-semibold text-gray-900">Informations Géographiques</h3>
+                <p class="text-sm text-gray-500">Localisation de votre société</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Pays<span class="text-red-500">*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Pays du siège social</p>
+                  <div class="relative">
+                    <select formControlName="pays" name="pays"
+                      class="form-input w-full h-10 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-150 ease-in-out"
+                      [ngClass]="{'!border-red-500': registerForm.get('pays')?.invalid && registerForm.get('pays')?.touched, 'border-green-500': registerForm.get('pays')?.valid && registerForm.get('pays')?.touched}"
+                    >
+                      <option value="">Sélectionnez un pays</option>
+                      <option *ngFor="let pays of paysList" [value]="pays.code">
+                        {{ pays.nomFr }}
+                      </option>
+                    </select>
+                  </div>
+                  <div *ngIf="registerForm.get('pays')?.invalid && registerForm.get('pays')?.touched" class="text-xs text-red-500 mt-1">
+                    Le pays est obligatoire.
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Ville<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Ville du siège social</p>
+                  <input type="text" formControlName="ville" name="ville"
+                         class="form-input w-full" 
+                         [ngClass]="{'!border-red-500': registerForm.get('ville')?.invalid && registerForm.get('ville')?.touched}"
+                         placeholder="PARIS" />
+                 <div *ngIf="registerForm.get('ville')?.invalid && registerForm.get('ville')?.touched" class="text-xs text-red-500 mt-1">
+                        La ville est obligatoire.
+                   </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Région<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Région administrative</p>
+                  <input type="text" formControlName="region" name="region"
+                         class="form-input w-full" 
+                         [ngClass]="{'!border-red-500': registerForm.get('region')?.invalid && registerForm.get('region')?.touched}"
+                         placeholder="Île-de-France" />
+                  <div *ngIf="registerForm.get('region')?.invalid && registerForm.get('region')?.touched" class="text-xs text-red-500 mt-1">
+                        La région est obligatoire.
+                   </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Code Postal<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Code postal du siège social</p>
+                  <input type="text" formControlName="codePostal" name="codePostal"
+                         class="form-input w-full" 
+                         [ngClass]="{'!border-red-500': registerForm.get('codePostal')?.invalid && registerForm.get('codePostal')?.touched}"
+                         placeholder="75008" />
+                 <div *ngIf="registerForm.get('codePostal')?.invalid && registerForm.get('codePostal')?.touched" class="text-xs text-red-500 mt-1">
+                        Le code postal est obligatoire.
+                   </div>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="block text-sm font-medium text-gray-700">Rue<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Le nom usuel de la zone</p>
+                  <input type="text" formControlName="rue" name="rue"
+                         class="form-input w-full" 
+                         [ngClass]="{'!border-red-500': registerForm.get('rue')?.invalid && registerForm.get('rue')?.touched}"
+                         placeholder="103 AV DE LATTRE DE TASSIGNY" />
+                  <div *ngIf="registerForm.get('rue')?.invalid && registerForm.get('rue')?.touched" class="text-xs text-red-500 mt-1">
+                        La rue est obligatoire.
+                   </div>
+                </div>
+                
+
+                
+
+                
+              </div>
+            </div>
+
+            <!-- Informations Juridiques -->
+            <div class="space-y-4">
+              <div class="border-b pb-2">
+                <h3 class="text-lg font-semibold text-gray-900">Informations Juridiques</h3>
+                <p class="text-sm text-gray-500">Informations légales de votre société</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">SIRET<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Numéro SIRET de l'entreprise</p>
+                  <input type="text" formControlName="siret" name="siret"
+                         class="form-input w-full" 
+                         [ngClass]="{'!border-red-500': registerForm.get('siret')?.invalid && registerForm.get('siret')?.touched}"
+                         placeholder="12345678901234" />
+                  <div *ngIf="registerForm.get('siret')?.invalid && registerForm.get('siret')?.touched" class="text-xs text-red-500 mt-1">
+                        Le numéro de siret est obligatoire.
+                   </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Code NAF</label>
+                  <p class="text-xs text-gray-500 mb-1">Code d'activité principale</p>
+                  <input type="text" formControlName="naf" name="naf"
+                         class="form-input w-full"
+                         placeholder="6201Z" />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Capital<span class="text-red-500">&nbsp;*</span></label>
+                  <p class="text-xs text-gray-500 mb-1">Capital social de l'entreprise</p>
+                  <input type="text" formControlName="capital" name="capital"
+                         class="form-input w-full" 
+                         [ngClass]="{'!border-red-500': registerForm.get('capital')?.invalid && registerForm.get('capital')?.touched}"
+                         placeholder="100 000 €" 
+                         (input)="formatCapital($event)" />
+                    <div *ngIf="registerForm.get('capital')?.invalid && registerForm.get('capital')?.touched" class="text-xs text-red-500 mt-1">
+                        Le capital est obligatoire.
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Étape 3 -->
+          <div *ngIf="currentStep === 3" class="space-y-8">
+            <!-- Informations Complémentaires -->
+            <div class="space-y-4">
+              <div class="border-b pb-2">
+                <h3 class="text-lg font-semibold text-gray-900">Informations Complémentaires</h3>
+                <p class="text-sm text-gray-500">Autres informations importantes</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Numéro PEFC</label>
+                    <p class="text-xs text-gray-500 mb-1">Certification PEFC</p>
+                    <input type="text" formControlName="numPefc" name="numPefc"
+                            class="form-input w-full" 
+                            placeholder="PEFC-COC-01-12345" />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Numéro CE</label>
+                  <p class="text-xs text-gray-500 mb-1">Numéro d'établissement</p>
+                  <input type="text" formControlName="numCe" name="numCe"
+                         class="form-input w-full"
+                         placeholder="000003" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Numéro CTBA</label>
+                  <p class="text-xs text-gray-500 mb-1">Numéro d'établissement</p>
+                  <input type="text" formControlName="numCtba" name="numCtba"
+                         class="form-input w-full"
+                         placeholder="1234-AB-5678" />
+                </div>
+                <!-- Télécoms -->
+            <div class="col-span-2">
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-lg font-medium text-gray-900">Télécoms</h3>
+                <div class="flex gap-2">
+                  <button 
+                    type="button"
+                    (click)="addTelecom()"
+                    class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  >
+                    <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Ajouter
+                  </button>
+                  <button type="button" (click)="resetTelecoms()" class="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Réinitialiser
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="telecomsFormArray.length === 0" class="text-center py-4 text-gray-500">
+                Aucun télécom ajouté
+              </div>
+
+              <div *ngFor="let telecomCtrl of telecomsFormArray.controls; let i = index" [formGroup]="telecomCtrl" class="mb-4 p-4 border border-gray-200 rounded-lg">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="text-sm font-medium text-gray-700">Télécom #{{ i + 1 }}</h4>
+                  <button 
+                    type="button"
+                    (click)="removeTelecom(i)"
+                    class="text-red-500 hover:text-red-700"
+                  >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <!-- Type de télécom -->
+                  <div>
+                    <label [for]="'typeTelecomId_' + i" class="block text-sm font-medium text-gray-700 mb-1">
+                      Type *
+                    </label>
+                    <select
+                      [id]="'typeTelecomId_' + i"
+                      formControlName="typeTelecomId"
+                      class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                      [ngClass]="{'border-red-500': getTelecomControl(i, 'typeTelecomId')?.invalid && getTelecomControl(i, 'typeTelecomId')?.touched}"
+                    >
+                      <option value="">Sélectionnez un type</option>
+                      <option *ngFor="let type of typeTelecoms" [value]="type.id">
+                        {{ type.libelle }}
+                      </option>
+                    </select>
+                    <div *ngIf="getTelecomControl(i, 'typeTelecomId')?.invalid && getTelecomControl(i, 'typeTelecomId')?.touched" class="text-xs text-red-500 mt-1">
+                      champ obligatoire
+                    </div>
+                  </div>
+
+                  <!-- Numéro (sur 2 colonnes) -->
+                  <div class="md:col-span-2">
+                    <label [for]="'numero_' + i" class="block text-sm font-medium text-gray-700 mb-1">
+                      Numéro *
+                    </label>
+                    <input
+                      [id]="'numero_' + i"
+                      type="text"
+                      formControlName="numero"
+                      class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                      [ngClass]="{'border-red-500': getTelecomControl(i, 'numero')?.invalid && getTelecomControl(i, 'numero')?.touched}"
+                    />
+                    <div *ngIf="getTelecomControl(i, 'numero')?.invalid && getTelecomControl(i, 'numero')?.touched" class="text-xs text-red-500 mt-1">
+                      <span *ngIf="getTelecomControl(i, 'numero')?.errors?.['required']">champ obligatoire</span>
+                      <span *ngIf="getTelecomControl(i, 'numero')?.errors?.['minlength']">4 caractères minimum</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation entre les étapes -->
+          <div class="flex justify-between pt-4">
+            <button *ngIf="currentStep > 1" type="button" 
+                    class="btn-secondary" 
+                    [disabled]="isLoading"
+                    (click)="previousStep()">
+              Retour
+            </button>
+            <button *ngIf="currentStep < 3" type="button" 
+                    class="btn-primary" 
+                    [disabled]="isLoading"
+                    (click)="nextStep()">
+              Suivant
+            </button>
+            <button *ngIf="currentStep === 3" type="submit" 
+                    class="btn-primary"
+                    [disabled]="isLoading">
+              <span *ngIf="!isLoading">Créer la société</span>
+              <span *ngIf="isLoading" class="flex items-center">
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Création en cours...
+              </span>
+            </button>
+          </div>
+
+          <!-- Message d'erreur -->
+          <!-- <div *ngIf="errorMessage" class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">Erreur lors de la création</h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <p>{{ errorMessage }}</p>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <p class="text-center text-sm text-gray-600 mt-4">
+            Déjà inscrit ?
+            <a [routerLink]="['/auth/login']" class="text-primary hover:text-primary">
+              Se connecter
+            </a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

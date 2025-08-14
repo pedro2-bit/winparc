@@ -1,0 +1,193 @@
+<div class="min-h-screen bg-[color:var(--background)] flex flex-col">
+
+  <!-- Notification toast -->
+  <app-notification
+    [show]="notification.show"
+    [message]="notification.message"
+    [type]="notification.type"
+    (closed)="onNotificationClosed()"
+  ></app-notification>
+
+  <!-- Titlebar -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="flex items-center justify-between px-6 py-4">
+      <div>
+        <h1 class="text-2xl font-bold text-[color:var(--primary-dark)]">Tableau de bord lots & flux bois</h1>
+        <p class="text-sm text-[color:var(--text-secondary)] mt-1">
+          Suivi global des lots, paquets, produits et stocks de bois sciés.
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <!-- Place for filters or actions -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-6">
+    <ng-container *ngIf="loading; else dashboardContent">
+      <app-loading></app-loading>
+    </ng-container>
+    <ng-template #dashboardContent>
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Lots -->
+        <div class="card flex flex-col items-start">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-[color:var(--primary-light)] flex items-center justify-center">
+              <svg class="w-7 h-7 text-[color:var(--primary-dark)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-[color:var(--text-secondary)]">Lots actifs</p>
+              <p class="text-2xl font-bold text-[color:var(--primary-dark)]">{{ totalLots }}</p>
+            </div>
+          </div>
+          <span class="mt-2 text-xs text-[color:var(--text-secondary)]">Lots en cours de gestion</span>
+        </div>
+        <!-- Paquets/Colis -->
+        <div class="card flex flex-col items-start">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-[color:var(--accent)] flex items-center justify-center">
+              <svg class="w-7 h-7 text-[color:var(--primary-dark)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="7" width="18" height="10" rx="2" stroke-width="2"/>
+                <path d="M3 7l9 6 9-6" stroke-width="2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-[color:var(--text-secondary)]">Paquets / Colis</p>
+              <p class="text-2xl font-bold text-[color:var(--primary-dark)]">{{ totalPaquets }}</p>
+            </div>
+          </div>
+          <span class="mt-2 text-xs text-[color:var(--text-secondary)]">Nombre total de paquets/colis</span>
+        </div>
+        <!-- Produits -->
+        <div class="card flex flex-col items-start">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-[color:var(--primary-color)] bg-opacity-20 flex items-center justify-center">
+              <svg class="w-7 h-7 text-[color:var(--primary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8" stroke-width="2"/>
+                <path d="M8 12h8" stroke-width="2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-[color:var(--text-secondary)]">Produits</p>
+              <p class="text-2xl font-bold text-[color:var(--primary-dark)]">{{ totalProduits }}</p>
+            </div>
+          </div>
+          <span class="mt-2 text-xs text-[color:var(--text-secondary)]">Produits gérés (tous lots)</span>
+        </div>
+        <!-- Stock global -->
+        <div class="card flex flex-col items-start">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-[color:var(--secondary-color)] bg-opacity-20 flex items-center justify-center">
+              <svg class="w-7 h-7 text-[color:var(--secondary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"/>
+                <path d="M4 9h16" stroke-width="2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-[color:var(--text-secondary)]">Stock total (m³)</p>
+              <p class="text-2xl font-bold text-[color:var(--primary-dark)]">{{ totalStock }}</p>
+            </div>
+          </div>
+          <span class="mt-2 text-xs text-[color:var(--text-secondary)]">Volume total en stock</span>
+        </div>
+      </div>
+
+      <!-- Graphiques et flux -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Evolution des lots (Line Chart) -->
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-semibold text-[color:var(--primary-dark)]">Évolution des lots</h2>
+          </div>
+          <canvas #lotsChart height="120"></canvas>
+        </div>
+        <!-- Répartition du stock par essence (Doughnut Chart) -->
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-semibold text-[color:var(--primary-dark)]">Stock par essence</h2>
+          </div>
+          <canvas #essenceChart height="120"></canvas>
+        </div>
+      </div>
+
+      <!-- Derniers mouvements de lots -->
+      <div class="card mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-[color:var(--primary-dark)]">Derniers mouvements de lots</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="bg-[color:var(--primary-light)] bg-opacity-30">
+                <th class="px-4 py-2 text-left font-semibold">Date</th>
+                <th class="px-4 py-2 text-left font-semibold">Lot</th>
+                <th class="px-4 py-2 text-left font-semibold">Type</th>
+                <th class="px-4 py-2 text-left font-semibold">Volume (m³)</th>
+                <th class="px-4 py-2 text-left font-semibold">Produit</th>
+                <th class="px-4 py-2 text-left font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mouvement of derniersMouvements">
+                <td class="px-4 py-2">{{ mouvement.date | date:'shortDate' }}</td>
+                <td class="px-4 py-2">{{ mouvement.lot }}</td>
+                <td class="px-4 py-2">
+                  <span [ngClass]="getMouvementTypeClass(mouvement.type)">
+                    {{ mouvement.type | titlecase }}
+                  </span>
+                </td>
+                <td class="px-4 py-2">{{ mouvement.volume | number:'1.2-2' }}</td>
+                <td class="px-4 py-2">{{ mouvement.produit }}</td>
+                <td class="px-4 py-2">
+                  <button class="btn-primary px-3 py-1 text-xs" (click)="voirDetailsMouvement(mouvement)">
+                    Détails
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="derniersMouvements.length === 0">
+                <td colspan="6" class="px-4 py-4 text-center text-[color:var(--text-secondary)]">Aucun mouvement récent</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bilan matière rapide -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card">
+          <h2 class="text-lg font-semibold text-[color:var(--primary-dark)] mb-2">Bilan matière (Entrées / Sorties)</h2>
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[color:var(--text-secondary)]">Entrées sur période</span>
+              <span class="font-bold text-[color:var(--primary-color)]">{{ bilanMatiere.entrees | number:'1.2-2' }} m³</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-[color:var(--text-secondary)]">Sorties sur période</span>
+              <span class="font-bold text-red-600">{{ bilanMatiere.sorties | number:'1.2-2' }} m³</span>
+            </div>
+            <div class="flex items-center justify-between border-t pt-2 mt-2">
+              <span class="text-[color:var(--text-secondary)]">Solde</span>
+              <span class="font-bold" [ngClass]="{'text-green-700': bilanMatiere.solde >= 0, 'text-red-600': bilanMatiere.solde < 0}">
+                {{ bilanMatiere.solde | number:'1.2-2' }} m³
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card flex flex-col justify-between">
+          <h2 class="text-lg font-semibold text-[color:var(--primary-dark)] mb-2">Comptes principaux</h2>
+          <ul class="divide-y divide-gray-200">
+            <li *ngFor="let compte of comptes" class="flex items-center justify-between py-2">
+              <span class="text-[color:var(--text-secondary)]">{{ compte.nom }}</span>
+              <span class="font-bold text-[color:var(--primary-dark)]">{{ compte.solde | number:'1.2-2' }} m³</span>
+            </li>
+            <li *ngIf="comptes.length === 0" class="py-2 text-[color:var(--text-secondary)] text-center">Aucun compte</li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

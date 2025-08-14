@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "Verwaltungsplattform",
+    "welcome": "Willkommen, {{name}}!",
+    "logout": "Abmelden"
+  },
+  "header": {
+    "notifications": "Benachrichtigungen",
+    "language": "Sprache"
+  },
+  "statistics": {
+    "totalOrders": "Gesamtbestellungen"
+  },
+  "sidebar": {
+    "Dashboard": "Übersichtsseite",
+    "data": "Daten",
+    "Modules": "Module",
+    "pays": "Land",
+    "Ressources": "Ressourcen",
+    "Clients":"Kunden",
+    "Licences":"Lizenzen",
+    "Parametres":"Einstellungen",
+    "Famille_qualite":"Qualitätsgruppe",
+    "qualite":"Qualitäten",
+    "Provenances" :"Herkünfte",
+    "Essences":"Holzarten",
+    "Restriction_qualite":"Qualitätsbeschränkung",
+     "Tarifs_cubage":"Kubierungspreise",
+    "Tarifs_cubage_essence":"Kubierungspreise nach Holzart",
+    "Classes_dimension":"Dimensionsklasse",
+    "Classes_diametre":"Durchmesserklasse"
+  },
+  "modules": {
+    "title": "Module",
+    "noneFound": "Keine Module gefunden"
+  },
+  "login": {
+    "title": "Anmeldung",
+    "usernameLabel": "Benutzername",
+    "usernameRequired": "Benutzername ist erforderlich",
+    "passwordLabel": "Passwort",
+    "passwordRequired": "Passwort ist erforderlich",
+    "forgotPassword": "Passwort vergessen?",
+    "button": "Anmelden",
+    "buttonLoading": "Anmeldung läuft...",
+    "noAccount": "Noch kein Konto?",
+    "createAccount": "Konto erstellen",
+    "invalidCredentials": "Ungültiger Benutzername oder Passwort.",
+    "genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  }
+}

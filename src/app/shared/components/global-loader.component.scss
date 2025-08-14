@@ -1,0 +1,17 @@
+/* ...existing code... */
+.global-loader-backdrop {
+  @apply absolute inset-0 z-50 flex items-center justify-center bg-[color:var(--background)] bg-opacity-90;
+}
+.global-loader-content {
+  @apply flex flex-col items-center justify-center gap-4;
+}
+.global-loader-spinner {
+  @apply animate-spin rounded-full border-4 border-[color:var(--primary-color)] border-t-transparent w-16 h-16 mb-4 shadow-lg;
+}
+.global-loader-title {
+  @apply text-[color:var(--primary-dark)] font-bold text-xl mb-1 tracking-wide;
+}
+.global-loader-desc {
+  @apply text-[color:var(--secondary-color)] font-medium text-base text-center;
+}
+/* ...existing code... */

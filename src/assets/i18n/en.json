@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "Management Platform",
+    "welcome": "Welcome, {{name}}!",
+    "logout": "Logout"
+  },
+  "header": {
+    "notifications": "Notifications",
+    "language": "Language"
+  },
+  "statistics": {
+    "totalOrders": "Total Orders"
+  },
+  "sidebar": {
+    "Dashboard": "Dashboard",
+    "data": "Data",
+    "Modules": "Modules",
+    "pays": "Country",
+    "Ressources": "Resources",
+    "Clients":"Clients",
+    "Licences":"Licenses",
+    "Parametres":"Settings",
+    "Famille_qualite":"Quality Group",
+    "qualite":"Grades",
+    "Provenances" :"Origins",
+    "Essences":"Wood Species",
+    "Restriction_qualite":"Quality Restriction",
+     "Tarifs_cubage":"Cubage Rates",
+    "Tarifs_cubage_essence":"Volume Pricing by Species",
+    "Classes_dimension":"Dimension Class",
+    "Classes_diametre":"Diameter Class"
+  },
+  "modules": {
+    "title": "Modules",
+    "noneFound": "No modules found"
+  },
+  "login": {
+    "title": "Login",
+    "usernameLabel": "Username",
+    "usernameRequired": "Username is required",
+    "passwordLabel": "Password",
+    "passwordRequired": "Password is required",
+    "forgotPassword": "Forgot password?",
+    "button": "Log in",
+    "buttonLoading": "Logging in...",
+    "noAccount": "Don't have an account yet?",
+    "createAccount": "Create an account",
+    "invalidCredentials": "Invalid username or password.",
+    "genericError": "An error occurred. Please try again."
+  }
+}

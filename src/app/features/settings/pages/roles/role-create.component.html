@@ -1,0 +1,68 @@
+  <!-- Loader global -->
+  <div *ngIf="globallLoading" class="absolute inset-0 z-30 flex items-center justify-center bg-white/80 rounded-2xl">
+    <div class="flex flex-col items-center">
+      <svg class="animate-spin h-12 w-12 text-emerald-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="text-emerald-700 font-semibold text-lg">Traitement en cours...</span>
+    </div>
+  </div>
+<div class="bg-white rounded-lg shadow-xl p-8 max-w-3xl mx-auto mt-8">
+  <h2 class="text-2xl font-bold mb-6 text-gray-900">Créer un Rôle</h2>
+  <form [formGroup]="roleForm" (ngSubmit)="createRole()" autocomplete="off" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label for="code" class="block text-sm font-medium text-gray-700 mb-1">Code du rôle</label>
+        <input id="code" formControlName="code" type="text" class="form-input w-full" placeholder="Ex: ADMIN" />
+        <div *ngIf="roleForm.get('code')?.invalid && roleForm.get('code')?.touched" class="text-red-500 text-xs mt-1">
+          Code requis, 3-20 caractères, majuscules, chiffres, tirets ou underscores.
+        </div>
+      </div>
+      <div>
+        <label for="libelle" class="block text-sm font-medium text-gray-700 mb-1">Libellé du rôle</label>
+        <input id="libelle" formControlName="libelle" type="text" class="form-input w-full" placeholder="Ex: Administrateur" />
+        <div *ngIf="roleForm.get('libelle')?.invalid && roleForm.get('libelle')?.touched" class="text-red-500 text-xs mt-1">
+          Libellé requis, 3-50 caractères.
+        </div>
+      </div>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Privilèges associés</label>
+      <div class="flex items-center mb-3">
+        <label for="selectAllPrivileges" class="flex items-center gap-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-green-50 transition cursor-pointer shadow-sm border border-gray-200">
+          <input type="checkbox" #selectAllCheckbox id="selectAllPrivileges" [checked]="areAllPrivilegesSelected()" (change)="onToggleAllPrivileges(selectAllCheckbox.checked)" class="accent-green-600" />
+          <span class="text-sm font-medium text-gray-700">
+            {{ areAllPrivilegesSelected() ? 'Tout décocher' : 'Tout cocher' }}
+          </span>
+        </label>
+      </div>
+      <input type="text" [(ngModel)]="search" [ngModelOptions]="{standalone: true}" (ngModelChange)="onSearchChange()" placeholder="Rechercher un privilège..." class="form-input w-full mb-3" name="search-privilege" />
+      <div class="max-h-64 overflow-y-auto border rounded-lg p-3 bg-gray-50">
+        <div *ngIf="filteredPrivileges.length === 0" class="text-gray-400 text-center py-4">Aucun privilège trouvé.</div>
+        <div *ngFor="let privilege of filteredPrivileges" class="flex items-center gap-2 py-1">
+          <input type="checkbox"
+                 #privilegeCheckbox
+                 [checked]="isPrivilegeSelected(privilege)"
+                 (change)="onPrivilegeToggle(privilege, privilegeCheckbox.checked)"
+                 class="accent-green-600" />
+          <span class="font-semibold text-gray-700">{{ privilege.libelle }}</span>
+          <span class="text-xs text-gray-400 ml-2">({{ privilege.code }})</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end gap-4 mt-6">
+      <button type="button" (click)="router.navigate(['/app/settings/user-roles'])" class="btn-secondary">Annuler</button>
+      <button type="submit" [disabled]="roleForm.invalid || isLoading" class="btn-primary flex items-center">
+        <span *ngIf="isLoading" class="loader mr-2"></span>
+        Enregistrer
+      </button>
+    </div>
+  </form>
+  <app-notification
+    [message]="notificationMessage"
+    [type]="notificationType"
+    [show]="notificationShow"
+    (closed)="onNotificationClosed()"
+  ></app-notification>
+</div>

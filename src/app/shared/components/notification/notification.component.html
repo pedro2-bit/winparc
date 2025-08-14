@@ -1,0 +1,39 @@
+<div *ngIf="show" [ngClass]="{'notification': true, 'info-center': type === 'info'}">
+  <div
+    [ngClass]="{
+      'success-alert slide-down': type === 'success',
+      'error-alert slide-down': type === 'error',
+      'info-alert slide-down': type === 'info'
+    }"
+  >
+    <!-- Success icon -->
+    <ng-container *ngIf="type === 'success'">
+      <span class="success-icon-animated" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-white" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+          <circle cx="12" cy="12" r="10" fill="#22c55e" opacity="0.18" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4" />
+        </svg>
+      </span>
+    </ng-container>
+    <!-- Error icon -->
+    <ng-container *ngIf="type === 'error'">
+      <span class="error-icon-animated" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-white" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+          <circle cx="12" cy="12" r="10" fill="#ef4444" opacity="0.18" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9l-6 6m0-6l6 6" />
+        </svg>
+      </span>
+    </ng-container>
+    <!-- Info icon -->
+    <ng-container *ngIf="type === 'info'">
+      <span class="info-icon-animated" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2">
+          <circle class="pulse-circle" cx="12" cy="12" r="10" fill="#17a2b8" opacity="0.25" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+        </svg>
+      </span>
+    </ng-container>
+    <span class="flex-1 info-message">{{ message }}</span>
+    <button (click)="onClose()" class="ml-6 text-white text-3xl leading-none font-bold focus:outline-none info-close-btn" aria-label="Fermer la notification">&times;</button>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+/* Styles cohérents avec le design system et Tailwind utilitaires */
+.bg-white { background-color: #fff; }
+.rounded-lg { border-radius: 0.5rem; }
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
+.p-6 { padding: 1.5rem; }
+.text-lg { font-size: 1.125rem; }
+.font-medium { font-weight: 500; }
+.text-gray-900 { color: #111827; }
+.mb-6 { margin-bottom: 1.5rem; }
+.overflow-x-auto { overflow-x: auto; }
+.min-w-full { min-width: 100%; }
+.divide-y > :not([hidden]) ~ :not([hidden]) { border-top-width: 1px; }
+.bg-gray-50 { background-color: #F9FAFB; }
+.text-xs { font-size: 0.75rem; }
+.text-gray-500 { color: #6B7280; }
+.uppercase { text-transform: uppercase; }
+.tracking-wider { letter-spacing: 0.05em; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.whitespace-nowrap { white-space: nowrap; }
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+/* Loader spinner for modal button */
+.loader {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #22c55e;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

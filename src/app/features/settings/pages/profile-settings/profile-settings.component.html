@@ -1,0 +1,123 @@
+<!-- notification de modification de mot de passe avec succès. -->
+<div *ngIf="successNotification" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 text-lg font-semibold">
+  {{ successNotification }}
+</div>
+
+<div *ngIf="isLoading" class="animate-pulse">
+    <div class="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+    <div class="h-3 bg-gray-200 rounded w-1/3"></div>
+  </div>
+
+
+<div class="bg-white  shadow-xl p-8 w-full max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+        <span>profil</span>
+        <!-- <span class="inline-block px-3 py-1 text-sm font-medium rounded-full bg-primary-100 text-primary-800" *ngIf="userProfile?.enable">Actif</span> -->
+      </h2>
+    </div>
+
+    <!-- Avatar + Main Info -->
+    <div class="flex flex-col sm:flex-row items-center gap-8 mb-10">
+    <!-- Avatar Section -->
+    <div class="w-32 h-32 bg-primary-100 flex items-center justify-center text-4xl font-bold text-primary-800 overflow-hidden shadow-md">
+  <ng-container *ngIf="userProfile?.avatar; else initials">
+    <img [src]="userProfile.avatar" alt="Avatar" class="w-full h-full object-cover" />
+  </ng-container>
+  <ng-template #initials>
+    {{ userProfile?.name.charAt(0) }}{{ userProfile?.surname.charAt(0) }}
+  </ng-template>
+</div>
+
+  <!-- User Info Section -->
+  <div class="text-center sm:text-left">
+    <div class="text-2xl font-semibold text-gray-900">{{ userProfile?.name }} {{ userProfile?.surname }}</div>
+    
+    <!-- User Details with Labels -->
+    <div class="mt-2">
+      <div class="text-base text-gray-600">
+        <span class="font-medium">Nom d'utilisateur :</span> {{ userProfile?.username }}
+      </div>
+      <div class="text-base text-gray-600">
+        <span class="font-medium">Email :</span> {{ userProfile?.email }}
+      </div>
+      <div class="text-base text-gray-600">
+        <span class="font-medium">Téléphone :</span> {{ userProfile?.mobilePhone }}
+      </div>
+      <div class="text-base text-gray-600" *ngIf="userProfile?.birthDate">
+        <span class="font-medium">Date de naissance :</span> {{ userProfile?.birthDate | date:'dd/MM/yyyy' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Sociétés -->
+  <div *ngIf="userProfile?.societes?.length>0" class="mb-8">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Sociétés</h3>
+    <div *ngFor="let societe of userProfile.societes" class="border rounded-lg p-4 mb-4 bg-gray-50">
+      <div class="font-semibold text-primary-700 mb-2">{{ societe.raisonSociale }} <span class="text-xs text-gray-400">({{ societe.codeSociete }})</span></div>
+      <div class="text-sm text-gray-600 mb-2" *ngIf="societe.adresse">
+        Adresse : {{ societe.adresse.rue }}, {{ societe.adresse.codePostal }} {{ societe.adresse.ville }} ({{ societe.adresse.nomPays }})
+      </div>
+      <div class="text-sm text-gray-600 mb-2" *ngIf="!societe.adresse">
+        Adresse : <span class="italic text-gray-400">Non renseignée</span>
+      </div>
+      <div class="text-sm text-gray-600 mb-2">SIRET : {{ societe.siret }} | Capital : {{ societe.capital }}</div>
+      <div class="text-sm text-gray-600 mb-2">Email : {{ societe.email }}</div>
+      <div class="mb-2">
+        <span class="font-medium text-gray-700">Télécoms :</span>
+        <span *ngFor="let tel of societe.telecoms" class="inline-block ml-2 px-2 py-1 text-xs rounded bg-primary-50 text-primary-700">
+          {{ tel.typeTelecomLibelle }} : {{ tel.prefix }} {{ tel.numero }}
+        </span>
+      </div>
+      <div>
+        <span class="font-medium text-gray-700">Modules/Licences :</span>
+        <span *ngFor="let mod of societe.modules" class="inline-flex items-center gap-1 ml-2 px-2 py-1 text-xs rounded bg-emerald-50 text-emerald-700">
+          <img [src]="mod.logoUrl" alt="logo" class="w-5 h-5 inline-block" /> {{ mod.libelle }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+    <!-- Password Modal -->
+    <div *ngIf="showPasswordModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md relative">
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-primary-600 transition duration-200" (click)="closePasswordModal()" aria-label="Fermer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+        <h4 class="text-xl font-semibold text-primary-800 mb-6">Modifier mon mot de passe</h4>
+        <form (ngSubmit)="submitPasswordChange()" #passwordForm="ngForm">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Mot de passe actuel</label>
+            <input type="password" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500" [(ngModel)]="currentPassword" name="currentPassword" required />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Nouveau mot de passe</label>
+            <input type="password" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500" [(ngModel)]="newPassword" name="newPassword" required />
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Confirmer le nouveau mot de passe</label>
+            <input type="password" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+          </div>
+<button type="submit" class="btn-primary w-full py-3 text-lg font-semibold shadow-lg">Valider</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Password Button -->
+    <div class="mb-10">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">Modifier Mes Informations</h2>
+
+  <div class="mb-4">
+    <h3 class="text-lg font-medium text-gray-900 mb-2">Modifier mon mot de passe</h3>
+    <p class="text-gray-600 mb-4">
+      cliquez sur le bouton ci-dessous pour modifier votre mot de passe.
+    </p>
+    <button (click)="openPasswordModal()" class="px-6 py-3 rounded-md bg-gray-50 text-black font-medium hover:bg-gray-200 transition duration-200">
+      Modifier mon mot de passe
+    </button>
+    <hr class="my-4 border-gray-300" />
+  </div>
+</div>
+</div>

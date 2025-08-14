@@ -1,0 +1,160 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+  <!-- Indicateur de chargement -->
+  <div *ngIf="isLoading" class="loading-spinner"></div>
+
+  <div class="form-grid">
+    <!-- Numéro -->
+    <div class="form-field">
+      <label for="numero" class="form-label">Numéro</label>
+      <input 
+        type="text" 
+        id="numero"
+        formControlName="numero"
+        class="form-input"
+        [class.invalid]="form.get('numero')?.invalid && form.get('numero')?.touched"
+      />
+      <p *ngIf="form.get('numero')?.invalid && form.get('numero')?.touched" class="form-error">
+        Le numéro est requis
+      </p>
+    </div>
+
+    <!-- Désignation -->
+    <div class="form-field">
+      <label for="designation" class="form-label">Désignation</label>
+      <input 
+        type="text" 
+        id="designation"
+        formControlName="designation"
+        class="form-input"
+        [class.invalid]="form.get('designation')?.invalid && form.get('designation')?.touched"
+      />
+      <p *ngIf="form.get('designation')?.invalid && form.get('designation')?.touched" class="form-error">
+        La désignation est requise
+      </p>
+    </div>
+
+    <!-- Libellé Vente -->
+    <div class="form-field">
+      <label for="libelleVente" class="form-label">Libellé Vente</label>
+      <input 
+        type="text" 
+        id="libelleVente"
+        formControlName="libelleVente"
+        class="form-input"
+        [class.invalid]="form.get('libelleVente')?.invalid && form.get('libelleVente')?.touched"
+      />
+      <p *ngIf="form.get('libelleVente')?.invalid && form.get('libelleVente')?.touched" class="form-error">
+        Le libellé de vente est requis
+      </p>
+    </div>
+
+    <!-- Libellé Abrégé -->
+    <div class="form-field">
+      <label for="libelleAbrege" class="form-label">Libellé Abrégé</label>
+      <input 
+        type="text" 
+        id="libelleAbrege"
+        formControlName="libelleAbrege"
+        class="form-input"
+        [class.invalid]="form.get('libelleAbrege')?.invalid && form.get('libelleAbrege')?.touched"
+      />
+      <p *ngIf="form.get('libelleAbrege')?.invalid && form.get('libelleAbrege')?.touched" class="form-error">
+        Le libellé abrégé est requis
+      </p>
+    </div>
+
+    <!-- Sous-famille -->
+    <div class="form-field">
+      <label for="sousFamilleId" class="form-label">Sous-famille</label>
+      <select 
+        id="sousFamilleId"
+        formControlName="sousFamilleId"
+        class="form-select"
+        [class.invalid]="form.get('sousFamilleId')?.invalid && form.get('sousFamilleId')?.touched"
+      >
+        <option value="">Sélectionner une sous-famille</option>
+        @if (typesMesures.length === 0) {
+          <div>Aucun élément trouvé</div>
+        } @else {
+          @for (typemesure of typesMesures; track typemesure.id) {
+            <option [value]="typemesure.id">
+              {{ typemesure.libelle }}
+            </option>
+          }
+        }
+      </select>
+      <p *ngIf="form.get('sousFamilleId')?.invalid && form.get('sousFamilleId')?.touched" class="form-error">
+        La sous-famille est requise
+      </p>
+    </div>
+
+ 
+
+
+
+
+
+
+
+
+    <!-- Options -->
+    <div class="md:col-span-3 options-grid">
+      <!-- Gestion des données de vente -->
+      <div class="option-item">
+        <input 
+          type="checkbox" 
+          id="gestionDonneesVente"
+          formControlName="gestionDonneesVente"
+          class="form-checkbox"
+        />
+        <label for="gestionDonneesVente">
+          Gestion des données de vente
+        </label>
+      </div>
+
+      <!-- Gestion des stocks -->
+      <div class="option-item">
+        <input 
+          type="checkbox" 
+          id="stocks"
+          formControlName="stocks"
+          class="form-checkbox"
+        />
+        <label for="stocks">
+          Gestion des stocks
+        </label>
+      </div>
+
+      <!-- RFA -->
+      <div class="option-item">
+        <input 
+          type="checkbox" 
+          id="rfa"
+          formControlName="rfa"
+          class="form-checkbox"
+        />
+        <label for="rfa">
+          RFA
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="form-actions">
+    <button 
+      type="button"
+      (click)="onCancel()"
+      class="btn btn-cancel"
+    >
+      Annuler
+    </button>
+    <button 
+      type="submit"
+      [disabled]="form.invalid || isLoading"
+      class="btn btn-submit"
+    >
+      {{ foret ? 'Modifier' : 'Créer' }}
+    </button>
+  </div>
+</form> 

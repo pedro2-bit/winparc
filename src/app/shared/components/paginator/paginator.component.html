@@ -1,0 +1,17 @@
+<div class="flex items-center justify-between w-full">
+  <div *ngIf="!noControl" class="flex items-center">
+    <span class="text-gray-700 text-sm mr-2">
+      Affichage de {{ first }} - {{ last }} de {{ total }} éléments
+    </span>
+    <select class="ml-2 border border-gray-300 rounded px-2 py-1 text-sm" [value]="limit" (change)="onLimitChange($event)">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+  <div class="flex items-center space-x-1">
+    <button (click)="changePage(page - 1)" [disabled]="page === 1" class="px-2 py-1 rounded border text-sm bg-white border-gray-300 hover:bg-gray-50 disabled:opacity-50">&lt;</button>
+    <ng-container *ngFor="let p of [].constructor(totalPages); let i = index">
+      <button (click)="changePage(i + 1)" [class.bg-primary]="page === i + 1" [class.text-white]="page === i + 1" [class.bg-white]="page !== i + 1" [class.text-gray-700]="page !== i + 1" class="px-2 py-1 rounded border text-sm border-gray-300 hover:bg-gray-50">{{ i + 1 }}</button>
+    </ng-container>
+    <button (click)="changePage(page + 1)" [disabled]="page === totalPages" class="px-2 py-1 rounded border text-sm bg-white border-gray-300 hover:bg-gray-50 disabled:opacity-50">&gt;</button>
+  </div>
+</div>

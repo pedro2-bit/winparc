@@ -1,0 +1,255 @@
+<div class="min-h-screen py-8 mt-24 bg-white p-6 rounded-lg mx-4 max-w-3xl mx-auto">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Ajouter un nouveau client</h2>
+  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Société (hidden, ou prérempli) -->
+      <!--<div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2">Société</label>
+        <input type="text"
+               class="w-full px-4 py-2 border rounded-lg bg-gray-100 cursor-not-allowed text-gray-400 select-none pointer-events-none focus:outline-none focus:ring-0 focus:border-gray-200"
+               [value]="selectedSociete?.raisonSociale || ''"
+               tabindex="-1"
+               readonly
+               aria-disabled="true"
+        />
+      </div>-->
+
+      <!-- Raison sociale + Sigle sur la même ligne -->
+      <div class="md:col-span-2 flex gap-4">
+        <div class="flex-1" style="flex-basis:70%">
+          <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Raison sociale
+            <span class="text-red-500 text-lg leading-none">*</span>
+          </label>
+          <input formControlName="raisonSociale" type="text"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            [ngClass]="{'border-red-500': clientForm.get('raisonSociale')?.invalid && clientForm.get('raisonSociale')?.touched}"
+            required />
+          <div *ngIf="clientForm.get('raisonSociale')?.invalid && clientForm.get('raisonSociale')?.touched" class="text-xs text-red-500 mt-1">
+            champ obligatoire
+          </div>
+        </div>
+        <div class="flex-1" style="flex-basis:30%">
+          <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Sigle</label>
+          <input formControlName="codeAbrege" type="text" maxlength="20" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Sigle" />
+        </div>
+      </div>
+
+      <!-- LES DIFFERENTS SITES DE LA SOCIETE -->
+      <div class="md:col-span-1">
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Site
+            <span class="text-red-500 text-lg leading-none">*</span>
+        </label>
+        <select
+            id="siteId"
+            formControlName="siteId"
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+            [ngClass]="{'border-red-500': clientForm.get('siteId')?.invalid && clientForm.get('siteId')?.touched, 'border-gray-300': !(clientForm.get('siteId')?.touched && clientForm.get('siteId')?.invalid)}"
+        >
+            <option value="">Sélectionnez un site</option>
+            <option *ngFor="let site of sitesSociete" [value]="site.id">
+            {{ site.intitule }}
+            </option>
+        </select>
+        <div *ngIf="clientForm.get('siteId')?.invalid && clientForm.get('siteId')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+      <!-- TYPE DE CLIENT -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Type de Client
+            <span class="text-red-500 text-lg leading-none">*</span>
+        </label>
+        <select formControlName="typeClient"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          [ngClass]="{'border-red-500': clientForm.get('typeClient')?.invalid && clientForm.get('typeClient')?.touched}"
+          required>
+          <option value="">Sélectionner</option>
+          <option value="NONE">Client en compte</option>
+          <option value="CLIENT_COMPTOIR">Client comptoir</option>
+        </select>
+        <div *ngIf="clientForm.get('typeClient')?.invalid && clientForm.get('typeClient')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+
+
+      <!-- Type de société -->
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Type de société
+            <span class="text-red-500 text-lg leading-none">*</span>
+        </label>
+        <select formControlName="typeSocieteId"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          [ngClass]="{'border-red-500': clientForm.get('typeSocieteId')?.invalid && clientForm.get('typeSocieteId')?.touched}"
+          required>
+          <option value="">Sélectionner</option>
+          <option *ngFor="let type of typeSocietes" [value]="type.id">{{ type.libelle }}</option>
+        </select>
+        <div *ngIf="clientForm.get('typeSocieteId')?.invalid && clientForm.get('typeSocieteId')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+      <!-- Numéro de compte et Etat client sur la même ligne -->
+      <div class="md:col-span-1">
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Numéro de compte
+            <span class="text-red-500 text-lg leading-none" *ngIf="clientForm.get('numCompte')?.invalid && clientForm.get('numCompte')?.touched">*</span>
+        </label>
+        <input formControlName="numCompte" type="text"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          [ngClass]="{'border-red-500': clientForm.get('numCompte')?.invalid && clientForm.get('numCompte')?.touched}"
+        />
+        <div *ngIf="clientForm.get('numCompte')?.invalid && clientForm.get('numCompte')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+      <!-- Représentant -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Représentant
+            <span class="text-red-500 text-lg leading-none">*</span>
+        </label>
+        <input formControlName="représentant" type="text"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          [ngClass]="{'border-red-500': clientForm.get('représentant')?.invalid && clientForm.get('représentant')?.touched}"
+        />
+        <div *ngIf="clientForm.get('représentant')?.invalid && clientForm.get('représentant')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+      <div class="md:col-span-1">
+        <!-- email -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Adresse mail
+          <span class="text-red-500 text-lg leading-none">*</span>
+        </label>
+        <input formControlName="email" type="text"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          [ngClass]="{'border-red-500': clientForm.get('email')?.invalid && clientForm.get('email')?.touched}"
+        />
+        <div *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+      </div>
+      <!-- Type de compte -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2 flex items-center gap-1">Type de compte
+            <span class="text-red-500 text-lg leading-none">*</span>
+        </label>
+        <select formControlName="typeCompte"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          [ngClass]="{'border-red-500': clientForm.get('typeCompte')?.invalid && clientForm.get('typeCompte')?.touched}"
+          required>
+          <option value="">Sélectionner</option>
+          <option value="CHANTIER">CHANTIER</option>
+          <option value="EN_COMPTE">EN COMPTE</option>
+        </select>
+        <div *ngIf="clientForm.get('typeCompte')?.invalid && clientForm.get('typeCompte')?.touched" class="text-xs text-red-500 mt-1">
+          champ obligatoire
+        </div>
+      </div>
+      <!-- Compte soldé -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Compte soldé ?</label>
+        <input formControlName="isCompteSolde" type="checkbox" class="h-5 w-5 text-primary border-gray-300 rounded focus:ring-primary" />
+      </div>
+      <!-- Télécoms -->
+            <div class="col-span-2">
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-lg font-medium text-gray-900">Télécoms</h3>
+                <div class="flex gap-2">
+                  <button 
+                    type="button"
+                    (click)="addTelecom()"
+                    class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  >
+                    <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Ajouter
+                  </button>
+                  <button type="button" (click)="resetTelecoms()" class="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Réinitialiser
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="telecomsFormArray.length === 0" class="text-center py-4 text-gray-500">
+                Aucun télécom ajouté
+              </div>
+
+              <div *ngFor="let telecomCtrl of telecomsFormArray.controls; let i = index" [formGroup]="telecomCtrl" class="mb-4 p-4 border border-gray-200 rounded-lg">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="text-sm font-medium text-gray-700">Télécom #{{ i + 1 }}</h4>
+                  <button 
+                    type="button"
+                    (click)="removeTelecom(i)"
+                    class="text-red-500 hover:text-red-700"
+                  >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <!-- Type de télécom -->
+                  <div>
+                    <label [for]="'typeTelecomId_' + i" class="block text-sm font-medium text-gray-700 mb-1">
+                      Type *
+                    </label>
+                    <select
+                      [id]="'typeTelecomId_' + i"
+                      formControlName="typeTelecomId"
+                      class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                      [ngClass]="{'border-red-500': getTelecomControl(i, 'typeTelecomId')?.invalid && getTelecomControl(i, 'typeTelecomId')?.touched}"
+                    >
+                      <option value="">Sélectionnez un type</option>
+                      <option *ngFor="let type of typeTelecoms" [value]="type.id">
+                        {{ type.libelle }}
+                      </option>
+                    </select>
+                    <div *ngIf="getTelecomControl(i, 'typeTelecomId')?.invalid && getTelecomControl(i, 'typeTelecomId')?.touched" class="text-xs text-red-500 mt-1">
+                      champ obligatoire
+                    </div>
+                  </div>
+
+                  <!-- Numéro (sur 2 colonnes) -->
+                  <div class="md:col-span-2">
+                    <label [for]="'numero_' + i" class="block text-sm font-medium text-gray-700 mb-1">
+                      Numéro *
+                    </label>
+                    <input
+                      [id]="'numero_' + i"
+                      type="text"
+                      formControlName="numero"
+                      class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                      [ngClass]="{'border-red-500': getTelecomControl(i, 'numero')?.invalid && getTelecomControl(i, 'numero')?.touched}"
+                    />
+                    <div *ngIf="getTelecomControl(i, 'numero')?.invalid && getTelecomControl(i, 'numero')?.touched" class="text-xs text-red-500 mt-1">
+                      <span *ngIf="getTelecomControl(i, 'numero')?.errors?.['required']">champ obligatoire</span>
+                      <span *ngIf="getTelecomControl(i, 'numero')?.errors?.['minlength']">4 caractères minimum</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+    </div>
+    <div class="mt-8 flex justify-end space-x-4">
+      <button type="button" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300" (click)="onCancel()">Annuler</button>
+      <button type="submit" class="px-4 py-2 rounded bg-primary text-white hover:bg-primary/90 flex items-center justify-center min-w-[120px] relative" [disabled]="isSubmitting">
+        <span>Enregistrer</span>
+       @if(isSubmitting){
+         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+       }
+       
+      </button>
+    </div>
+  </form>
+</div>

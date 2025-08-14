@@ -1,0 +1,48 @@
+{
+  "app": {
+    "title": "Plateforme de gestion",
+    "welcome": "Bienvenue, {{name}} !",
+    "logout": "Déconnexion"
+  },
+  "header": {
+    "notifications": "Notifications",
+    "language": "Langue"
+  },
+  "statistics": {
+    "totalOrders": "Total Commandes"
+  },
+  "sidebar": {
+    "Dashboard": "Tableau de bord",
+    "forets": "Forets",
+    "parcelles": "Parcelles",
+    "divisions": "Divisions",
+    "denombrements": "Dénombrements",
+    "denombrement_unitaire": "Dénombrement Unitaire",
+    "parcelles_partagees": "Parcelles Partagees",
+    "obstacles": "Obstacles",
+   
+    "Restriction_qualite":"Restriction Qualité",
+    "Tarifs_cubage":"Tarifs de Cubage",
+    "Tarifs_cubage_essence":"Tarifs de Cubage par essence",
+    "Classes_dimension":"Classe de Dimension",
+    "Classes_diametre":"Classe de Diamètre"
+  },
+  "modules": {
+    "title": "Modules",
+    "noneFound": "Aucun module trouvé"
+  },
+  "login": {
+    "title": "Connexion",
+    "usernameLabel": "Nom d'utilisateur",
+    "usernameRequired": "Le nom d'utilisateur est requis",
+    "passwordLabel": "Mot de passe",
+    "passwordRequired": "Le mot de passe est requis",
+    "forgotPassword": "Mot de passe oublié ?",
+    "button": "Se connecter",
+    "buttonLoading": "Connexion en cours...",
+    "noAccount": "Pas encore de compte ?",
+    "createAccount": "Créer un compte",
+    "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect.",
+    "genericError": "Une erreur est survenue. Veuillez réessayer."
+  }
+}

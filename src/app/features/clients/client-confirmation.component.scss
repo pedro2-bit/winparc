@@ -1,0 +1,96 @@
+.client-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.client-confirmation-dialog {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(23,162,184,0.18);
+  min-width: 420px;
+  max-width: 95vw;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slide-in-left-center 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slide-in-left-center {
+  0% {
+    transform: translateX(-60vw) scale(0.95);
+    opacity: 0.2;
+  }
+  80% {
+    transform: translateX(2vw) scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.icon-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.question-icon {
+  margin-right: 1.2rem;
+  flex-shrink: 0;
+}
+.confirmation-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #1976d2;
+}
+.client-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 400;
+}
+.raison-sociale {
+  font-weight: 600;
+}
+.num-compte {
+  font-style: italic;
+  color: #1976d2;
+}
+.btn-row {
+  margin-top: 1.5rem;
+}
+.oui-btn {
+  border: 2px solid #43a047;
+  font-weight: 600;
+  box-shadow: 0 2px 8px 0 rgba(67,160,71,0.08);
+}
+.non-btn {
+  border: 2px solid #e53935;
+  font-weight: 600;
+  box-shadow: 0 2px 8px 0 rgba(229,57,53,0.08);
+}
+@media (max-width: 600px) {
+  .client-confirmation-dialog {
+    min-width: 90vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+  .client-info {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+}

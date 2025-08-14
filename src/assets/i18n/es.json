@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "Plataforma de gestión",
+    "welcome": "¡Bienvenido, {{name}}!",
+    "logout": "Cerrar sesión"
+  },
+  "header": {
+    "notifications": "Notificaciones",
+    "language": "Idioma"
+  },
+  "statistics": {
+    "totalOrders": "Total de pedidos"
+  },
+  "sidebar": {
+    "Dashboard": "Tablero",
+    "data": "Datos",
+    "Modules": "Módulos",
+    "pays": "País",
+    "Ressources": "Recursos",
+    "Clients":"Clientes",
+    "Licences":"Licencias",
+    "Parametres":"Configuración",
+    "Famille_qualite":"Familia de Calidad",
+    "qualite":"Calidades",
+    "Provenances" :"Procedencias",
+    "Essences":"Especies de madera",
+    "Restriction_qualite":"Restricción de calidad",
+     "Tarifs_cubage":"Tarifas de Cubicación",
+    "Tarifs_cubage_essence":"Tarifas de Cubicación por especie",
+    "Classes_dimension":"Clase de Dimensión",
+    "Classes_diametre":"Clase de Diámetro"
+  },
+  "modules": {
+    "title": "Módulos",
+    "noneFound": "No se encontraron módulos"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "usernameLabel": "Nombre de usuario",
+    "usernameRequired": "El nombre de usuario es obligatorio",
+    "passwordLabel": "Contraseña",
+    "passwordRequired": "La contraseña es obligatoria",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "button": "Iniciar sesión",
+    "buttonLoading": "Iniciando sesión...",
+    "noAccount": "¿Aún no tienes una cuenta?",
+    "createAccount": "Crear una cuenta",
+    "invalidCredentials": "Nombre de usuario o contraseña incorrecto.",
+    "genericError": "Ocurrió un error. Por favor, inténtelo de nuevo."
+  }
+}
